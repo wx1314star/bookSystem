@@ -1,0 +1,129 @@
+package com.orbbec.framework.excel;
+
+import com.alibaba.excel.EasyExcelFactory;
+import com.alibaba.excel.ExcelReader;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.event.AnalysisEventListener;
+import com.alibaba.excel.metadata.BaseRowModel;
+import com.alibaba.excel.metadata.Sheet;
+import com.alibaba.excel.support.ExcelTypeEnum;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 导出导出管理类
+ */
+public final class ExcelManager {
+
+    /**
+     * 导入文件流
+     */
+    public static Boolean readExcel(InputStream is, Class clazz) {
+        BufferedInputStream bis = null;
+        try {
+            bis = new BufferedInputStream(is);
+            AnalysisEventListener listener = new ExcelListener();
+            ExcelReader reader = EasyExcelFactory.getReader(bis,listener);
+            reader.read(new Sheet(1,1,clazz));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if( bis != null ) {
+                try {
+                    bis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 导出文件流
+     */
+    public static Boolean writeExcel(OutputStream os, Class clazz, List<? extends BaseRowModel> data) {
+        BufferedOutputStream bos = null;
+        try {
+            bos = new BufferedOutputStream(os);
+            ExcelWriter writer = new ExcelWriter(bos, ExcelTypeEnum.XLSX);
+            Sheet sheet = new Sheet(1, 0, clazz);
+            writer.write(data, sheet);
+            writer.finish();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if( bos != null ) {
+                try {
+                    bos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+//        FileInputStream fis = null;
+//        try {
+//            fis = new FileInputStream("E:\\学生表.xlsx");
+//            Boolean flag = ExcelManager.readExcel(fis, Student.class);
+//            System.out.println("导入是否成功：" + flag);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if( fis != null ) {
+//                try {
+//                    fis.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+
+//        FileOutputStream fos = null;
+//        try {
+//            fos = new FileOutputStream("C:\\Users\\hanhaifei\\Desktop\\学生导出表.xlsx");
+//            List<Student> list = new ArrayList<>();
+//            list.add(new Student("哈哈","你猜"));
+//            Boolean flag = ExcelManager.writeExcel(fos, Student.class, list);
+//            System.out.println("导出是否成功:"+ flag);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if( fos != null ) {
+//                try {
+//                    fos.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

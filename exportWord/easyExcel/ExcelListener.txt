@@ -1,0 +1,26 @@
+package com.orbbec.framework.excel;
+
+import com.alibaba.excel.context.AnalysisContext;
+import com.alibaba.excel.event.AnalysisEventListener;
+
+/**
+ * 监听器
+ * 每解析一行会调用invoke（）方法
+ * 整个excel解析结束后会执行doAfterAllAnalysed（）方法
+ */
+public class ExcelListener extends AnalysisEventListener {
+
+
+    @Override
+    public void invoke(Object object, AnalysisContext context) {
+        System.out.println("当前行：" + context.getCurrentRowNum());
+        System.out.println("当前数据:" + object);
+    }
+
+    @Override
+    public void doAfterAllAnalysed(AnalysisContext context) {
+        System.out.println("============="+ context.getCurrentRowNum() +"结束===============");
+    }
+
+
+}
